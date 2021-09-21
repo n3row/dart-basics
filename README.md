@@ -1,4 +1,4 @@
-# lab1_mob
+# Flutter-lab1
 
 A new Flutter project.
 
