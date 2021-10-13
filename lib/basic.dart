@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-const DEFAULT_NUM = 10;
+const DEFAULT_NUMERIC_VALUE = 10;
 
 class BasicClass<T extends num> {
   T _a;
@@ -27,33 +27,33 @@ Function multiplier({required by}) {
   return (num) => num * by;
 }
 
-void syntax(param, {nulledParam: null}) {
-  param ??= DEFAULT_NUM;
-  print('[syntax] Got param = $param');
-  print('[syntax] Got nulledParam = ${nulledParam ?? 'null'}');
+void syntaxSugar(param, {nulledParam: null}) {
+  param ??= DEFAULT_NUMERIC_VALUE;
+  print('[syntaxSugar] Got param = $param');
+  print('[syntaxSugar] Got nulledParam = ${nulledParam ?? 'null'}');
 }
 
 // factories
-abstract class Peripheral {
-  final String _model;
+abstract class Animal {
+  final String _name;
 
-  Peripheral({required String model}) : _model = model;
+  Animal({required String name}) : _name = name;
 
-  factory Peripheral.factory({required String model, required String type}) {
+  factory Animal.factory({required String name, required String type}) {
     switch (type) {
-      case 'Mice':
-        return Mice(model: model);
-      case 'Keyboard':
-        return Keyboard(model: model);
-      case 'type Keyboard':
-        return TypeKeyboard(model: model);
+      case 'dog':
+        return Dog(name: name);
+      case 'cat':
+        return Cat(name: name);
+      case 'black cat':
+        return BlackCat(name: name);
     }
-    throw Exception('unknown Peripheral type');
+    throw Exception('unknown animal type');
   }
 
-  void use();
+  void play();
 
-  get model => _model;
+  get name => _name;
 }
 
 mixin Colorful {
@@ -64,46 +64,46 @@ mixin Colorful {
   set color(Color color) => _color = color;
 }
 
-class Keyboard extends Peripheral {
-  Keyboard({required String model}) : super(model: model) {
-    print('Keyboard \'$model\' was created...');
+class Cat extends Animal {
+  Cat({required String name}) : super(name: name) {
+    print('Cat \'$name\' was created...');
   }
 
   @override
-  void use() {
-    print('Keyboard in use. Processing...');
+  void play() {
+    print('I\'m a cat! Nyaaaaa..');
   }
 }
 
-class TypeKeyboard extends Keyboard with Colorful {
-  TypeKeyboard({required String model}) : super(model: model) {
-    this._color = Color.fromRGBO(0, 0, 0, 1);
-    print('Keyboard with model \'$model\' was created...');
+class BlackCat extends Cat with Colorful {
+  BlackCat({required String name}) : super(name: name) {
+    this._color = Color.fromRGBO(0, 0, 0, 1.0);
+    print('Black cat with name \'$name\' was created...');
   }
 
   @override
-  void use() {
+  void play() {
     print('...');
   }
 }
 
-class Mice extends Peripheral with Colorful {
-  late String _revision;
+class Dog extends Animal with Colorful {
+  late String _favoriteBone;
 
-  Mice({required String model}) : super(model: model) {
-    print('Mice \'$model\' was created...');
+  Dog({required String name}) : super(name: name) {
+    print('Dog \'$name\' was created...');
   }
 
   @override
-  void use() {
-    print('Mice in use from revision: $_revision');
+  void play() {
+    print('I\'m a dog! Playing with my $_favoriteBone');
   }
 
   @override
   String toString() {
-    return 'Mice {model: $_model, color: $_color, revision: $_revision}';
+    return 'Dog {name: $_name, color: $_color, favoriteBone: $_favoriteBone}';
   }
 
-  set revision(String revision) => _revision = revision;
+  set favoriteBone(String favoriteBone) => _favoriteBone = favoriteBone;
 
 }
