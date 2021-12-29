@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.lab1_mob">
+    package="com.n3row.lab1_mob">
    <application
         android:label="lab1_mob"
         android:icon="@mipmap/ic_launcher">

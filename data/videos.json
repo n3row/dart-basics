@@ -1,0 +1,44 @@
+[
+  {
+    "id": "1",
+    "previewImage": "resources/images/videos/1.jpg",
+    "description": "TOP MOMENTS TWITCH #NN",
+    "length": "10:35",
+    "channelAvatarImage": "resources/images/channels/1.jpg",
+    "channelName": "TWITCH | BEST CLIPS",
+    "views": 137000,
+    "shortUploadedAt": "2 years ago",
+    "uploadedAt": "Sep 27, 2021",
+    "likes": 25000,
+    "dislikes": 0,
+    "subscribers": 250000
+  },
+  {
+    "id": "2",
+    "previewImage": "resources/images/videos/2.jpg",
+    "description": "Twitch Music",
+    "length": "2:59:51",
+    "channelAvatarImage": "resources/images/channels/2.jpg",
+    "channelName": "Combo",
+    "views": 200000,
+    "shortUploadedAt": "2 years ago",
+    "uploadedAt": "Nov 25, 2019",
+    "likes": 36000,
+    "dislikes": 3,
+    "subscribers": 344
+  },
+  {
+    "id": "3",
+    "previewImage": "resources/images/videos/3.jpg",
+    "description": "Chill Vibes Music",
+    "length": "1:21:01",
+    "channelAvatarImage": "resources/images/channels/2.jpg",
+    "channelName": "Combo",
+    "views": 7654,
+    "shortUploadedAt": "3 hours ago",
+    "uploadedAt": "7 years ago",
+    "likes": 1189,
+    "dislikes": 9,
+    "subscribers": 750000
+  }
+]

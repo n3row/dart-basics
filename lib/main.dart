@@ -1,20 +1,60 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lab1_mob/pages/library_page.dart';
+import 'package:lab1_mob/pages/follows_page.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import './models/videos.dart';
 import './pages/main_page.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => Videos(),
+      child: MyApp(),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late bool isDarkTheme = true;
+
+  void toggleTheme() {
+    setState(() {
+      isDarkTheme = !isDarkTheme;
+      SharedPreferences.getInstance().then((sp) {
+        sp.setBool('isDarkTheme', isDarkTheme);
+      });
+    });
+  }
+
+  _MyAppState() {
+    SharedPreferences.getInstance().then((sp) {
+      setState(() {
+        isDarkTheme = sp.getBool('isDarkTheme') ?? true;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    Provider.of<Videos>(context, listen: false).update();
     return MaterialApp(
-      title: 'YOUTUBE CLONE FOR TWITCH FIT',
+      title: 'Twitch Youtube Idea',
+      routes: {
+        '/': (context) => App(toggleTheme: toggleTheme),
+      },
       theme: ThemeData(
-        brightness: Brightness.dark,
-        //primarySwatch: Colors.grey,
+        brightness: isDarkTheme ? Brightness.dark : Brightness.light,
+        // primarySwatch: Colors.grey,
 
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
@@ -41,22 +81,28 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      themeMode: ThemeMode.dark,
-      home: App(),
+      themeMode: isDarkTheme ? ThemeMode.dark : ThemeMode.light,
     );
   }
 }
 
 class App extends StatefulWidget {
-  const App({Key? key}) : super(key: key);
+  final Function toggleTheme;
+
+  const App({Key? key, required this.toggleTheme}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _AppState();
+  State<StatefulWidget> createState() => _AppState(toggleTheme);
 }
 
 class _AppState extends State<App> {
   int _selectedIndex = 0;
+  int _totalSubscribeCount = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final Function toggleTheme;
+
+  _AppState(this.toggleTheme);
 
   void _openEndDrawer() {
     _scaffoldKey.currentState!.openEndDrawer();
@@ -72,13 +118,21 @@ class _AppState extends State<App> {
     });
   }
 
-  static final _indexToPageMap = [
-    MainPage(),
-    Text('================IN PROGRESS================'),
-    Text('================IN PROGRESS================'),
-    Text('================IN PROGRESS================'),
-    Text('================IN PROGRESS================'),
-  ];
+  void incrementTotalSubsCount() {
+    setState(() {
+      _totalSubscribeCount++;
+    });
+  }
+
+  List get indexToPageMap => [
+        MainPage(incrementSubscribeCounter: incrementTotalSubsCount),
+        Text('================IN PROGRESS================'),
+        Text('================IN PROGRESS================'),
+        SubscriptionsPage(
+            totalFollowClicks: _totalSubscribeCount,
+            onClick: incrementTotalSubsCount),
+        LibraryPage(),
+      ];
 
   @override
   Widget build(BuildContext context) {
@@ -86,9 +140,17 @@ class _AppState extends State<App> {
       key: _scaffoldKey,
       appBar: AppBar(
         leading: SvgPicture.asset(
-          'resources/images/twitch.svg',
+          'resources/images/Twitch.svg',
           semanticsLabel: 'Twitch Logo',
-          fit: BoxFit.scaleDown,
+          fit: BoxFit.contain,
+        ),
+        title: Text(
+          'TV',
+          style: TextStyle(
+              fontFamily: 'YouTubeSans',
+              fontWeight: FontWeight.w700,
+              fontSize: 32,
+              letterSpacing: -2),
         ),
         titleSpacing: -3,
         actions: <Widget>[
@@ -104,7 +166,7 @@ class _AppState extends State<App> {
                       ),
                       body: const Center(
                         child: Text(
-                          'NONE TEXT',
+                          'Notifications(PRIME)',
                           style: TextStyle(fontSize: 24),
                         ),
                       ),
@@ -123,7 +185,7 @@ class _AppState extends State<App> {
           IconButton(
             onPressed: _openEndDrawer,
             icon: CircleAvatar(
-              radius: 30,
+              radius: 20,
               backgroundImage:
                   AssetImage('resources/images/default-avatar.png'),
             ),
@@ -150,6 +212,10 @@ class _AppState extends State<App> {
                         ],
                       ),
                       onPressed: () {},
+                      // style: ButtonStyle(
+                      //   backgroundColor:
+                      //       MaterialStateProperty.all<Color>(Colors.black12),
+                      // ),
                     ),
                     VerticalDivider(
                       thickness: 1,
@@ -173,7 +239,7 @@ class _AppState extends State<App> {
                     Container(
                       margin: const EdgeInsets.only(left: 5),
                       child: ElevatedButton(
-                        child: const Text('Music'),
+                        child: const Text('MUSIC'),
                         onPressed: () {},
                       ),
                     ),
@@ -203,7 +269,7 @@ class _AppState extends State<App> {
           BottomNavigationBarItem(
             icon: Icon(Icons.subscriptions_outlined),
             activeIcon: Icon(Icons.subscriptions),
-            label: 'SUBS',
+            label: 'FOLLOWS',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.video_library_outlined),
@@ -234,8 +300,7 @@ class _AppState extends State<App> {
             ListTile(
               title: const Text('==EXAMPLE=='),
               onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('IN PROGRESS')));
+                toggleTheme();
                 Navigator.pop(context);
               },
             ),
@@ -244,7 +309,15 @@ class _AppState extends State<App> {
       ),
       endDrawerEnableOpenDragGesture: false,
 
-      body: _indexToPageMap.elementAt(_selectedIndex),
+      floatingActionButton: FloatingActionButton(
+         onPressed: () {
+           // Add your onPressed code here!
+         },
+         child: const Icon(Icons.navigation),
+         backgroundColor: Colors.grey,
+      ),
+
+      body: indexToPageMap.elementAt(_selectedIndex),
     );
   }
 }
