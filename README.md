@@ -1,6 +1,6 @@
-# Flutter-lab1
+# lab1_mob
 
-A new Flutter project.
+KPI Flutter project showing basics of Dart language and Flutter framework.
 
 ## Getting Started
 
