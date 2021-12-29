@@ -28,7 +28,7 @@ class VideoPage extends StatelessWidget {
     final _uploadedAt = video['uploadedAt'];
     final _likes = video['likes'];
     final _dislikes = video['dislikes'];
-    final _subscribers = video['followers'];
+    final _followers = video['followers'];
     final _isLiked = video['isLiked'];
 
     return Hero(
@@ -241,7 +241,7 @@ class VideoPage extends StatelessWidget {
                                       Flexible(
                                         child: Container(
                                           child: Text(
-                                            '$_subscribers followers',
+                                            '$_followers followers',
                                             style: TextStyle(
                                               fontSize: 12,
                                               color: Colors.grey,
