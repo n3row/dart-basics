@@ -11,7 +11,7 @@
     "uploadedAt": "Sep 27, 2021",
     "likes": 25000,
     "dislikes": 0,
-    "subscribers": 250000
+    "followers": 25000
   },
   {
     "id": "2",
@@ -25,7 +25,7 @@
     "uploadedAt": "Nov 25, 2019",
     "likes": 36000,
     "dislikes": 3,
-    "subscribers": 344
+    "followers": 344
   },
   {
     "id": "3",
@@ -39,6 +39,6 @@
     "uploadedAt": "7 years ago",
     "likes": 1189,
     "dislikes": 9,
-    "subscribers": 750000
+    "followers": 750000
   }
 ]
