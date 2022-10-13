@@ -1,4 +1,4 @@
-# lab1_mob
+# flutter_labs
 
 KPI Flutter project showing basics of Dart language and Flutter framework.
 
