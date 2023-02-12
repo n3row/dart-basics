@@ -1,4 +1,4 @@
-# flutter_basics
+# dart-basics
 
 KPI Flutter project showing basics of Dart language and Flutter framework.
 
